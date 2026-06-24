@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="../img/dashbi02.png">
+    <title>Administração - DashBI 2.0</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            margin: 0;
+            background: #f0f2f5;
+        }
+
+        .topo {
+            background: #0B1E3C;
+            color: #fff;
+            padding: 0.5rem 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .topo .logo {
+            height: 50px;
+            width: auto;
+            display: block;
+            margin-right: 0.25rem;
+        }
+
+        .topo .titulo {
+            display: flex;
+            align-items: center;
+        }
+
+        .topo h1 {
+            margin: 0;
+            font-size: 1.25rem;
+        }
+
+        .topo a {
+            color: #93c5fd;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .layout {
+            display: flex;
+            min-height: calc(100vh - 48px);
+        }
+
+        .menu {
+            width: 220px;
+            background: #fff;
+            border-right: 1px solid #e5e7eb;
+            padding: 1rem 0;
+        }
+
+        .menu a {
+            display: block;
+            padding: 0.5rem 1.25rem;
+            color: #374151;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .menu a:hover {
+            background: #f3f4f6;
+        }
+
+        .menu a.ativo {
+            background: #eff6ff;
+            color: #2563eb;
+            font-weight: 600;
+        }
+
+        .conteudo {
+            flex: 1;
+            padding: 1.5rem;
+            overflow: auto;
+        }
+
+        .painel {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, .06);
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .painel h2 {
+            margin: 0 0 1rem 0;
+            font-size: 1.1rem;
+            color: #1f2937;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .painel h3 {
+            margin: 1rem 0 0.5rem 0;
+            font-size: 1rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        th,
+        td {
+            text-align: left;
+            padding: 0.5rem 0.75rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background: #f9fafb;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .vazio {
+            color: #6b7280;
+            padding: 1rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.4rem 0.75rem;
+            background: #2563eb;
+            color: #fff;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            border: none;
+            cursor: pointer;
+            margin-right: 0.25rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .btn:hover {
+            background: #1d4ed8;
+        }
+
+        .btn.sec {
+            background: #6b7280;
+        }
+
+        .btn.sec:hover {
+            background: #4b5563;
+        }
+
+        .btn.danger {
+            background: #dc2626;
+        }
+
+        .btn.danger:hover {
+            background: #b91c1c;
+        }
+
+        .btn.sm {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.8rem;
+        }
+
+        .carregando {
+            color: #6b7280;
+            padding: 1rem;
+        }
+
+        .erro {
+            color: #b91c1c;
+            padding: 1rem;
+        }
+
+        .msg {
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+        }
+
+        .msg.ok {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .msg.err {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        #sair {
+            color: #93c5fd;
+            background: none;
+            padding: 0;
+        }
+
+        #sair:hover {
+            text-decoration: underline;
+            background: none;
+        }
+
+        .topo .topo-user {
+            color: #fff;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .topo .topo-user:hover {
+            text-decoration: underline;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .5);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .modal.ativo {
+            display: flex;
+        }
+
+        .modal-c {
+            background: #fff;
+            border-radius: 8px;
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            overflow: auto;
+        }
+
+        .modal-c h3 {
+            margin: 0 0 1rem 0;
+            padding: 1rem 1rem 0;
+        }
+
+        .modal-c .corpo {
+            padding: 0 1rem 1rem;
+        }
+
+        .modal-c .rodape {
+            padding: 1rem;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.5rem;
+        }
+
+        .form-g {
+            margin-bottom: 0.75rem;
+        }
+
+        .form-g label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-bottom: 0.25rem;
+            color: #374151;
+        }
+
+        .form-g input,
+        .form-g select,
+        .form-g textarea {
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+
+        .form-g input[type=checkbox] {
+            width: auto;
+            margin-right: 0.5rem;
+        }
+
+        .form-g input.input-readonly {
+            background: #f3f4f6;
+            color: #6b7280;
+            cursor: not-allowed;
+        }
+
+        select[multiple] {
+            min-height: 80px;
+        }
+
+        .filtros {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+            align-items: flex-end;
+        }
+
+        .filtros .form-g {
+            margin-bottom: 0;
+        }
+
+        .filtros .form-g select {
+            min-width: 200px;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="topo">
+        <div class="titulo">
+            <img src="../img/dashbi03.png" alt="DashBI" class="logo">
+            <h1>Administração</h1>
+        </div>
+        <span><a href="#" data-sec="profile" class="topo-user"><strong id="userNome">--</strong></a> &nbsp; <a href="#" id="sair">Sair</a></span>
+    </header>
+    <div class="layout">
+        <nav class="menu">
+            <a href="#" data-sec="profile">Meu perfil</a>
+            <a href="dashboard.php">Ver relatórios</a>
+            <a href="#" data-sec="manual">Manual do sistema</a>
+            <a href="#" data-sec="tenants" data-master-only>Tenants (Microsoft)</a>
+            <a href="#" data-sec="reports" data-admin-only>Relatórios e permissões</a>
+            <a href="#" data-sec="folders" data-admin-only>Pastas</a>
+            <a href="#" data-sec="tvpanels" data-admin-only>Painel TV</a>
+            <a href="#" data-sec="users" data-admin-only>Usuários</a>
+            <a href="#" data-sec="groups" data-admin-only>Grupos</a>
+            <a href="#" data-sec="logs" data-master-only>Logs de acesso</a>
+            <a href="#" data-sec="datasets" data-master-only>Dataset / Refresh</a>
+            <a href="#" data-sec="sync" data-master-only>Sincronizar</a>
+        </nav>
+        <main class="conteudo">
+            <div id="msg" class="msg" style="display:none;"></div>
+            <div id="painel" class="painel">
+                <p class="carregando">Verificando login…</p>
+            </div>
+        </main>
+    </div>
+    <div id="modal" class="modal">
+        <div class="modal-c">
+            <h3 id="modalTitulo"></h3>
+            <div class="corpo" id="modalCorpo"></div>
+            <div class="rodape" id="modalRodape"></div>
+        </div>
+    </div>
+    <script src="admin-app.js"></script>
+</body>
+
+</html>

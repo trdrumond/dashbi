@@ -1,0 +1,9 @@
+Tenant_id: c29849bb-f3d2-4914-88a0-b95de0b7d4d7
+Client_id: 9568b0c9-0f86-42ba-98fe-de8418175023
+Valor: Uxl8Q~oVhidxq_~taU6zf7P39unZqxbUN54JfcDl
+Client_Secret: 9c2a62f9-ac64-4055-bbe5-0a0f302c4e5e
+
+Id do objeto: 43864a32-08cd-4745-977c-2c2ecdddbbdc
+Ido do diretório: c29849bb-f3d2-4914-88a0-b95de0b7d4d7
+
+id do objeto do grupo de segurança: 6b62c41b-fca6-4050-ab21-24d2b76e9f53

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="../img/dashbi02.png">
+    <title>Login - DashBI 2.0</title>
+    <style>
+        * { box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center; background: #f0f2f5; }
+        .card { background: #fff; padding: 2rem; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,.08); width: 100%; max-width: 360px; }
+        .sub { color: #666; font-size: 0.9rem; margin-bottom: 1.5rem; }
+        label { display: block; font-weight: 600; color: #333; margin-bottom: 0.25rem; font-size: 0.9rem; }
+        input { width: 100%; padding: 0.6rem 0.75rem; border: 1px solid #ddd; border-radius: 6px; font-size: 1rem; margin-bottom: 1rem; }
+        input:focus { outline: none; border-color: #2563eb; }
+        button { width: 100%; padding: 0.75rem; background: #2563eb; color: #fff; border: none; border-radius: 6px; font-size: 1rem; font-weight: 600; cursor: pointer; }
+        button:hover { background: #1d4ed8; }
+        .erro { background: #fef2f2; color: #b91c1c; padding: 0.5rem 0.75rem; border-radius: 6px; font-size: 0.9rem; margin-bottom: 1rem; display: none; }
+        .erro.visivel { display: block; }
+        .logo { display: block; max-width: 280px; height: auto; margin: 0 auto 1.25rem; }
+        .hidden { display: none !important; }
+        .painel-esqueci .sub { margin-bottom: 1rem; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <img src="../img/dashbi01.png" alt="DashBI" class="logo">
+        <p class="sub">Entre para acessar relatórios e administração</p>
+        <div id="erro" class="erro"></div>
+        <div id="formLogin">
+        <form id="form" method="post" action="api/auth/login">
+            <label for="email">E-mail</label>
+            <input type="email" id="email" name="email" value="admin@localhost" required autocomplete="username">
+            <label for="senha">Senha</label>
+            <input type="password" id="senha" name="senha" placeholder="Senha" required autocomplete="current-password">
+            <button type="submit">Entrar</button>
+        </form>
+        <p style="margin-top:1rem;text-align:center;"><a href="#" id="linkEsqueciSenha">Esqueci minha senha</a></p>
+        </div>
+        <div id="painelEsqueci" class="painel-esqueci hidden">
+            <p class="sub">Informe seu e-mail para receber uma nova senha. Você precisará trocá-la no próximo acesso.</p>
+            <div id="erroEsqueci" class="erro"></div>
+            <form id="formEsqueci">
+                <label for="emailReset">E-mail</label>
+                <input type="email" id="emailReset" required placeholder="seu@email.com">
+                <button type="submit">Enviar nova senha</button>
+            </form>
+            <p style="margin-top:1rem;text-align:center;"><a href="#" id="voltarLogin">Voltar ao login</a></p>
+        </div>
+    </div>
+    <script>
+        (function () {
+            var form = document.getElementById('form');
+            var erro = document.getElementById('erro');
+            // Base da URL atual (ex.: /workbi/public/) para a API ser chamada no mesmo caminho
+            var path = window.location.pathname || '';
+            var base = path.lastIndexOf('/') >= 0 ? path.substring(0, path.lastIndexOf('/') + 1) : '/';
+
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+                erro.classList.remove('visivel');
+                erro.textContent = '';
+                fetch(base + 'api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({ email: document.getElementById('email').value, senha: document.getElementById('senha').value })
+                })
+                .then(function (r) {
+                    return r.text().then(function (txt) {
+                        var data = null;
+                        try {
+                            data = txt ? JSON.parse(txt) : {};
+                        } catch (e) {
+                            return { ok: false, data: { success: false, message: 'Resposta inválida do servidor (Status ' + r.status + '). Verifique os logs do PHP ou a conexão com o banco.' } };
+                        }
+                        return { ok: r.ok, status: r.status, data: data };
+                    });
+                })
+                .then(function (x) {
+                    if (x.ok && x.data && x.data.success === true) {
+                        var data = x.data.data || {};
+                        if (data.trocarSenhaObrigatorio) {
+                            window.location.href = 'trocar-senha.html';
+                        } else {
+                            window.location.href = 'dashboard.php';
+                        }
+                        return;
+                    }
+                    erro.textContent = (x.data && x.data.message) ? x.data.message : ('Erro no servidor (Status ' + (x.status || '') + '). Tente novamente.');
+                    erro.classList.add('visivel');
+                })
+                .catch(function (err) {
+                    erro.textContent = 'Erro de conexão. Verifique se o servidor está acessível e a URL está correta.';
+                    erro.classList.add('visivel');
+                    if (typeof console !== 'undefined' && console.error) console.error('Login fetch error:', err);
+                });
+            });
+
+            document.getElementById('linkEsqueciSenha').addEventListener('click', function(e) {
+                e.preventDefault();
+                document.getElementById('formLogin').classList.add('hidden');
+                document.getElementById('painelEsqueci').classList.remove('hidden');
+                document.getElementById('erroEsqueci').classList.remove('visivel');
+                document.getElementById('emailReset').value = document.getElementById('email').value || '';
+            });
+            document.getElementById('voltarLogin').addEventListener('click', function(e) {
+                e.preventDefault();
+                document.getElementById('painelEsqueci').classList.add('hidden');
+                document.getElementById('formLogin').classList.remove('hidden');
+            });
+            document.getElementById('formEsqueci').addEventListener('submit', function(e) {
+                e.preventDefault();
+                var errEl = document.getElementById('erroEsqueci');
+                errEl.classList.remove('visivel');
+                errEl.textContent = '';
+                var email = document.getElementById('emailReset').value.trim();
+                fetch('api/auth/esqueci-senha', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({ email: email })
+                })
+                .then(function(r) { return r.json().then(function(d) { return { ok: r.ok, data: d }; }); })
+                .then(function(x) {
+                    if (x.data.success) {
+                        errEl.textContent = x.data.message || 'Verifique seu e-mail.';
+                        errEl.classList.remove('erro');
+                        errEl.classList.add('ok', 'visivel');
+                        errEl.style.background = '#dcfce7';
+                        errEl.style.color = '#166534';
+                        document.getElementById('formEsqueci').reset();
+                    } else {
+                        errEl.textContent = x.data.message || 'Não foi possível enviar. Tente novamente.';
+                        errEl.classList.add('visivel');
+                    }
+                })
+                .catch(function() {
+                    errEl.textContent = 'Erro de conexão. Tente novamente.';
+                    errEl.classList.add('visivel');
+                });
+            });
+        })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    # Ajuste RewriteBase se a aplicação estiver em subpasta (ex.: /workbi/public/)
+    # Se acessar pela raiz do servidor, use /
+    RewriteBase /dashbi/public/
+
+    # Garantir que chamadas à API cheguem ao index.php (evita 404)
+    RewriteRule ^api/ index.php [QSA,L]
+
+    # Demais URLs (exceto arquivos e pastas existentes)
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^ index.php [QSA,L]
+</IfModule>
+
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+</IfModule>
