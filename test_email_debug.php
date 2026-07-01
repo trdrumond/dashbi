@@ -6,7 +6,7 @@ error_reporting(E_ALL);
 
 // Configurações (Copiado de Config.php para isolamento)
 class TestConfig {
-    const MAIL_FROM = 'naoresponda@logos-ma.com.br';
+    const MAIL_FROM = 'naoresponda@envio.logos-ma.com.br';
     const MAIL_SMTP_HOST = 'smtplw.com.br';
     const MAIL_SMTP_PORT = 587;
     const MAIL_SMTP_USER = 'maillogos';
