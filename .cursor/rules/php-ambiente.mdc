@@ -1,0 +1,14 @@
+---
+description: PHP - ambiente XAMPP do DashBI
+alwaysApply: true
+---
+
+# PHP — ambiente do projeto DashBI
+
+- Runtime: **PHP 7.3**
+- Stack: PHP 7.3, MySQL 5.7+, camadas Controller -> Service -> Repository
+- Banco: MySQL 5.7+ (schema em database/)
+- Padroes e restricoes oficiais: `docs/PROJECT.md`
+- Credenciais e instalacao: `docs/` / manuais do projeto (nao versionar segredos)
+- Falsos erros de sintaxe no IDE costumam vir do validador PHP 7.3 embutido — use Reload Window
+- Em `app/Core/`, preferir tipagem compativel com o padrao do Core (ver `core-php-editor.mdc`)

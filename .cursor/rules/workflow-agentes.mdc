@@ -1,0 +1,62 @@
+---
+description: Workflow Universal de Engenharia - DashBI
+alwaysApply: true
+---
+
+# Workflow de Agentes — DashBI (DBI)
+
+Toda solicitacao deve ser analisada antes de qualquer implementacao.
+
+Fonte oficial: `docs/PROJECT.md`, `docs/DEVELOPMENT_WORKFLOW.md`, `docs/DEFINITION_OF_DONE.md`.
+Catalogo e IDs Task: `.cursor/rules/agentes-catalogo.mdc` e `.cursor/agents/`.
+
+## Regras gerais
+
+- Consulte o `PROJECT.md` e as Rules do projeto antes de agir.
+- **Acione via Task** (`subagent_type` = `name:` do agente) todo especialista necessario — nao implemente sozinho o que cabe a outro papel.
+- Use **apenas** os necessarios; nunca pule etapas obrigatorias do fluxo.
+- Preserve arquitetura, padroes e separacao de responsabilidades.
+- Entregue **uma** resposta consolidada ao usuario.
+- Proibido misturar regras/artefatos de outros sistemas Logos neste workspace.
+
+## Pipeline obrigatorio (codigo de produto)
+
+```
+Astolfo (plano) -> especialistas de implementacao -> Kai + James (paralelo) -> Badauí (docs)
+```
+
+Nenhum codigo de produto antes do plano do Architect (exceto hotfix trivial documentado).
+Sprint so fecha com QA + Security sem blocker (ou risco aceito em `docs/`).
+
+## Quando acionar (selecao inteligente)
+
+| Situacao | Agentes |
+|----------|---------|
+| Escopo / prioridade / MVP | Amadeus, Juriedson, Paulo Ricardo |
+| Solucao / plataforma / integracao estrategica | Kirk -> Astolfo |
+| Coordenacao de sprint | Marquinhos (apos Architect) |
+| UI / UX | Juvencio -> Genivaldo |
+| Backend PHP | Jamilison |
+| Schema / indices / migrations | Gertrudes (+ Maria se operacional) |
+| Integracoes | Digão (+ Jamilison dominio) |
+| Deploy / XAMPP / Apache / cron | Canisso (+ Juvenal se confiabilidade) |
+| IA / RAG / LLM | João Gordo (+ Supla se prompt) |
+| Dados analiticos / ETL | Miguel |
+| Mobile / PWA | Jeremias |
+| Performance | Robert -> especialista que implementa |
+| Seguranca | James |
+| Code review | Nasi |
+| Automacao de testes | Thor |
+| QA funcional | Kai |
+| Documentacao | Badauí |
+| Prompts/rules/agents | Supla |
+
+## Regras obrigatorias
+
+- Nunca pule etapas obrigatorias.
+- Nunca implemente sem arquitetura (exceto hotfix trivial documentado).
+- Nunca altere regras de negocio sem Product Owner.
+- Nunca altere arquitetura sem Software Architect.
+- Nunca altere requisitos sem Business Analyst.
+- Nunca execute tarefas fora da responsabilidade do especialista.
+- Sempre preserve a separacao de responsabilidades.

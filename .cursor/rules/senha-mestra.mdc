@@ -1,0 +1,25 @@
+---
+description: Senha mestra operacional - DashBI (familia Logos)
+alwaysApply: true
+---
+
+# Senha mestra — DashBI
+
+## Obrigatorio
+
+Sistemas Logos que suportam mestra operacional devem:
+
+1. Centralizar a verificacao em **uma** funcao/API (nao comparar hash solto em `index.php` / clones).
+2. Usar **um** hash canonico — proibido expandir lista de hashes sem aceite Security/Architect.
+3. **Nunca** versionar a senha em claro (docs/smoke: `<SENHA_MESTRA_OPS>`).
+4. Mestra **nao** dispara rehash da senha do usuario.
+5. Login continua exigindo: CSRF (quando houver), usuario ativo, bind PDO, regeneracao de ID de sessao.
+
+Referencia de implementacao canonica (DEM): `Demandas\Security\MasterPassword` — adaptar ao namespace/estrutura deste repositorio se existir equivalente local.
+
+## Proibido
+
+- Hardcode de `$masterHash` solto fora da classe/API canonica
+- Comparacao `sha1($senha) === '...'` espalhada
+- Documentar ou commitar a senha em claro
+- Expandir hashes "de backup" sem novo aceite Security/Architect

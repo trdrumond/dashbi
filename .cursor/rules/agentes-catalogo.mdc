@@ -1,0 +1,63 @@
+---
+description: Catalogo de agentes DashBI - IDs Task e papeis
+alwaysApply: true
+---
+
+# Catalogo de Agentes — DashBI
+
+Acione com a ferramenta **Task** usando o `subagent_type` exatamente igual ao `name:` abaixo.
+Prompts em `.cursor/agents/*.md`.
+
+## Gestao e produto
+
+| Agente (Task ID) | Papel |
+|------------------|-------|
+| `Amadeus - project-manager` | Cronograma, riscos, status |
+| `Juriedson - product-owner` | Backlog, prioridade, valor |
+| `Paulo Ricardo - business-analyst` | Requisitos, aceite, AS-IS/TO-BE |
+
+## Arquitetura e coordenacao
+
+| Agente (Task ID) | Papel |
+|------------------|-------|
+| `Kirk - solution-architect` | Solucao / stack / integracao (alto nivel) |
+| `Astolfo - software-architect` | Plano tecnico, orquestracao, aceite arquitetural |
+| `Marquinhos - engineering-manager` | Ordem de execucao, dependencias, impedimentos |
+
+## Implementacao
+
+| Agente (Task ID) | Papel |
+|------------------|-------|
+| `Juvencio - ux-ui-designer` | UX/UI, fluxos, Design System |
+| `Genivaldo - frontend-engineer` | Views, HTML/CSS/Bootstrap/JS |
+| `Jamilison - backend-engineer` | PHP, Services, Repositories, APIs |
+| `Jeremias - mobile-engineer` | Mobile / PWA |
+| `Gertrudes - database-engineer` | Modelagem, migrations, indices |
+| `Maria - dba` | Operacao MariaDB (backup, HA, permissoes) |
+| `Miguel - data-engineer` | ETL/ELT, analytics, governanca de dados |
+| `Digão - integration-engineer` | Integracoes, webhooks, sync, OAuth |
+| `João Gordo - ai-engineer` | RAG, LLM, agentes de produto, embeddings |
+| `Canisso - devops-engineer` | Infra, Apache, deploy, CI/CD |
+| `Juvenal - sre-engineer` | SLO, observabilidade, incidentes, DR |
+
+## Validacao
+
+| Agente (Task ID) | Papel |
+|------------------|-------|
+| `James - security-engineer` | AuthZ, XSS, CSRF, SQL, dados sensiveis |
+| `Nasi - code-reviewer` | Revisao tecnica (nao corrige) |
+| `Thor - test-automation-engineer` | Suites automatizadas, CI de testes |
+| `Kai - QA Engineer` | Aceite funcional, regressao |
+| `Robert - performance-engineer` | Profiling, gargalos (nao implementa) |
+
+## Documentacao e prompts
+
+| Agente (Task ID) | Papel |
+|------------------|-------|
+| `Badauí - technical-writer` | Docs em `docs/` |
+| `Supla - prompt-engineer` | Prompts/rules/agents Cursor |
+
+## Nucleo minimo por entrega
+
+`Astolfo` -> implementacao indicada -> `Kai` + `James` -> `Badauí`
+Demais agentes: **sempre que o escopo exigir** (Architect/EM indicam).

@@ -1,0 +1,16 @@
+---
+description: Desativa falsos erros de sintaxe PHP no app/Core
+globs: app/Core/**/*.php
+alwaysApply: false
+---
+
+# Core PHP — leitura do editor
+
+Os arquivos em `app/Core/` sao validos no runtime Apache do projeto.
+
+Se o IDE mostrar `syntax error, unexpected 'array' ou 'private'`:
+- E falso positivo do validador PHP 7.3 embutido
+- Recarregue a janela: Developer -> Reload Window
+- Use **Revert File** se a aba tiver versao antiga em memoria
+
+Nao altere o Core apenas para silenciar o analisador antigo.
